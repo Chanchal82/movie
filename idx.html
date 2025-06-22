@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script
+      src="https://kit.fontawesome.com/68cb6a0ce5.js"
+      crossorigin="anonymous"
+    ></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        text-align: center;
+        background-color: rgb(18, 31, 50);
+        color: aliceblue;
+        padding: 20px;
+      }
+      .searchlist {
+        display: flex;
+        justify-content: center;
+        margin: 20px;
+      }
+
+      .searchbox {
+        display: flex;
+        align-items: center;
+        background-color: white;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 7px 12px;
+        width: 20%;
+        margin-right: 5px;
+      }
+      .searchHere {
+        outline: none;
+        border: none;
+        flex: 1;
+      }
+      .searchbox i {
+        color: black;
+      }
+      button {
+        border: 1px solid #ccc;
+        background-color: white;
+        border-radius: 5px;
+        padding: 5px 10px;
+        font-size: 15px;
+        cursor: pointer;
+      }
+
+
+      .watchHere p {
+        margin: 5px 0;
+      }
+
+      .watchHere a {
+        text-decoration: none;
+        color: aliceblue;
+        font-size: 20px;
+      }
+      .navContent {
+        position: relative;
+      }
+
+      .watchHere {
+        position: absolute;
+        top: 20px;
+        right: 0;
+        text-align: right;
+      }
+
+  .container {
+  display: flex;
+  justify-content: flex-start; 
+  margin-top: 20px;
+  background-color: #2c3e50;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+}
+
+.container img {
+  max-width: 300px;
+  border-radius: 10px;
+  margin-right: 20px; 
+}
+
+.container .details {
+  display: flex;
+  flex-direction: column; 
+  justify-content: space-between;
+  flex: 1; 
+}
+
+.container .details h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.container .details p {
+  font-size: 22px;
+  margin: 5px 0;
+}
+
+.container .button-group {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.container button {
+  background-color: #2980b9;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.container button:hover {
+  background-color: #3498db;
+}
+
+
+
+@media (max-width: 600px) {
+  .searchlist {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .searchbox {
+    width: 80%;
+    margin-bottom: 10px;
+  }
+
+  .watchHere {
+    position: static;
+    margin-top: 20px;
+    text-align: center;
+  }
+
+  .container {
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+  }
+
+  .container img {
+    max-width: 90%;
+    margin-bottom: 15px;
+  }
+
+  .container .details {
+    text-align: center;
+  }
+
+  .container .details p {
+    font-size: 18px;
+  }
+
+  .container .button-group {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+
+@media (min-width: 601px) and (max-width: 900px) {
+  .searchbox {
+    width: 60%;
+  }
+
+  .container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .container img {
+    max-width: 70%;
+    margin-bottom: 20px;
+  }
+
+  .container .details {
+    text-align: center;
+  }
+
+  .container .button-group {
+    justify-content: center;
+    gap: 12px;
+  }
+}
+
+
+@media (min-width: 901px) {
+  .container {
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+
+  .container img {
+    max-width: 300px;
+    margin-right: 20px;
+  }
+
+  .container .details {
+    text-align: left;
+    gap: 20px;
+  }
+
+  .container .button-group {
+    justify-content: flex-start;
+    gap: 10px;
+  }
+}
+
+    </style>
+  </head>
+  <body>
+    <div class="navContent">
+      <h1>📽 Movie Explorer</h1>
+      <div class="watchHere">
+        <p>
+          <a href="watchlist.html"><span>🍿</span> Watch List</a>
+        </p>
+        <p>
+          <a href="fav.html"><span>❤️</span> Favourites</a>
+        </p>
+      </div>
+    </div>
+
+    <div class="searchlist">
+      <div class="searchbox">
+        <input
+          class="searchHere"
+          type="text"
+          placeholder="search movie here..."
+        />
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </div>
+      <button onclick="searchItem()">Search</button>
+    </div>
+
+    <div id="shown"></div>
+
+  
+    <script>
+      let isSearching = false;
+      async function searchItem(){
+        if (isSearching) return;
+        isSearching = true;
+          const movieName=document.querySelector(".searchHere").value
+          const apiKey = "5991add1";
+          const url = `https://www.omdbapi.com/?apikey=${apiKey}&t=${encodeURIComponent(movieName)}`;
+
+          const result=document.querySelector("#shown")
+          result.innerHTML=""
+
+          try{
+              const response=await fetch(url);
+              const data=await response.json();
+
+              if (data.Response === "False") {
+                result.innerHTML = `
+                <img src="https://media.tenor.com/6gHLhmwO87sAAAAC/facepalm-star-trek.gif" alt="Error" class="error-img">
+                <p>${data.Error}</p>`;
+             }else{
+                const recommended=parseFloat(data.imdbRating)>8.5?`<div>⭐ Recommended</div>`:""
+                const box=document.createElement("div")
+                box.className="container"
+                box.innerHTML=`${recommended}`
+
+                const image=document.createElement("img")
+                image.setAttribute("src",data.Poster)
+
+                const details = document.createElement("div");
+                details.className = "details";
+
+                const title=document.createElement("h1")
+                title.innerText=data.Title
+
+                const date=document.createElement("p")
+                date.innerHTML=`<strong>Released Date: </strong> ${data.Released}`
+
+                const rating=document.createElement("p")
+                rating.innerHTML=`<strong>IMDB Rating: </strong> ${data.imdbRating}`
+
+                const genre=document.createElement("p")
+                genre.innerHTML=`<strong>Genre: </strong> ${data.Genre}`
+
+                const plot=document.createElement("p")
+                plot.innerHTML=`<strong>Plot: </strong> ${data.Plot}`
+
+                const btn1=document.createElement("button")
+                btn1.innerText="🎬 Add to watch list"
+                btn1.addEventListener('click',()=>{
+                  let watchlist=JSON.parse(localStorage.getItem("watchlist"))||[]
+                  watchlist.push(data)
+                  localStorage.setItem("watchlist",JSON.stringify(watchlist))
+                  alert(`${data.Title} added to Watch List!`)
+                })
+
+                const btn2=document.createElement("button")
+                btn2.innerText="❤️ Add to favourites"
+                btn2.addEventListener('click',()=>{
+                  let favourite=JSON.parse(localStorage.getItem("favourites"))||[]
+                  favourite.push(data)
+                  localStorage.setItem("favourites",JSON.stringify(favourite))
+                  alert(`${data.Title} added to Favourites!`)
+                })
+
+                const buttonGroup = document.createElement("div");
+                buttonGroup.className = "button-group";
+                buttonGroup.append(btn1, btn2);
+
+                details.append(title, date, rating, genre, plot, buttonGroup);
+                box.append(image, details);
+                result.appendChild(box)
+                document.querySelector(".searchHere").value = "";
+             }
+          }
+          catch(err){
+            document.querySelector("#shown").innerHTML=`<p>Something went wrong!</p>`
+          }
+
+      }
+
+      document.querySelector(".searchHere").addEventListener('keypress',(e1)=>{
+        if(e1.key==="Enter"){
+          searchItem()
+        }
+      })
+    </script>
+  </body>
+</html>
